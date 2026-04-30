@@ -6,89 +6,259 @@
   <title>UniPilot</title>
 
   <style>
+    :root {
+      --bg: #f3fbff;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #4b5563;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #14b8a6;
+      --border: #dbeafe;
+      --ring: rgba(37, 99, 235, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f8ff;
-      color: #111827;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 550px at -5% -10%, #c7f3ff 0%, transparent 60%),
+        radial-gradient(1000px 450px at 100% -10%, #dbeafe 0%, transparent 58%),
+        linear-gradient(180deg, #f8fdff 0%, #eef8ff 100%);
+      color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      text-align: center;
+      padding: 24px;
     }
 
     .container {
-      max-width: 600px;
-      padding: 40px 24px;
+      width: 100%;
+      max-width: 980px;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(243, 252, 255, 0.94) 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow:
+        0 10px 30px rgba(37, 99, 235, 0.07),
+        0 2px 8px rgba(15, 23, 42, 0.05);
+      padding: 56px 28px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
     }
 
-    h1 {
-      font-size: 48px;
+    .container::before,
+    .container::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .container::before {
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(20, 184, 166, 0.2), transparent 70%);
+      top: -100px;
+      right: -70px;
+    }
+
+    .container::after {
+      width: 230px;
+      height: 230px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.22), transparent 72%);
+      bottom: -90px;
+      left: -55px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
       margin-bottom: 16px;
     }
 
-    p {
+    .logo {
+      width: clamp(96px, 15vw, 150px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 18px rgba(37, 99, 235, 0.2));
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      color: #0f4f94;
+      background: linear-gradient(120deg, rgba(191, 242, 255, 0.6), rgba(219, 234, 254, 0.55));
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      padding: 8px 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 7vw, 70px);
+      line-height: 1.05;
+      margin: 0 0 10px;
+      letter-spacing: -1.5px;
+      font-weight: 800;
+    }
+
+    .brand {
+      background: linear-gradient(100deg, #2563eb 0%, #06b6d4 55%, #14b8a6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .tagline {
+      margin: 0 0 16px;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.2;
+      color: #1e3a8a;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .description {
       font-size: 18px;
-      color: #4b5563;
-      line-height: 1.5;
-      margin-bottom: 28px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0 auto 34px;
+      max-width: 680px;
     }
 
     form {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
+      margin: 0 auto;
+      max-width: 640px;
     }
 
     input {
-      padding: 14px 16px;
+      padding: 15px 16px;
       font-size: 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
       min-width: 260px;
+      flex: 1 1 320px;
+      max-width: 420px;
+      outline: none;
+      background: #ffffff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 4px var(--ring);
     }
 
     button {
-      padding: 14px 20px;
+      padding: 15px 22px;
       font-size: 16px;
       border: none;
-      border-radius: 10px;
-      background: #4f46e5;
+      border-radius: 12px;
+      background: linear-gradient(115deg, var(--primary) 0%, #0891b2 100%);
       color: white;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.24);
     }
 
     button:hover {
-      background: #4338ca;
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .small {
-      margin-top: 18px;
+      margin-top: 16px;
       font-size: 14px;
-      color: #6b7280;
+      color: #64748b;
+    }
+
+    .footer {
+      margin-top: 26px;
+      font-size: 13px;
+      color: #64748b;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 42px 20px;
+        border-radius: 14px;
+      }
+
+      .description {
+        font-size: 17px;
+        margin-bottom: 28px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>UniPilot</h1>
+    <div class="content">
+      <div class="logo-wrap">
+        <img class="logo" src="assets/unipilot-logo.png" alt="UniPilot logo">
+      </div>
 
-    <p>
-      Plan your degree, check prerequisites, map exchange options,
-      and build a smarter path through university.
-    </p>
+      <div class="pill">Built for students by students</div>
 
-    <form action="https://formly.pro/f/SvaEDzNGojmcnbTQeBIh" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <button type="submit">Join waitlist</button>
-    </form>
+      <h1><span class="brand">UniPilot</span></h1>
 
-    <div class="small">
-      Launching soon for USYD students.
+      <p class="tagline">Enrolment without the chaos.</p>
+
+      <p class="description">
+        Build your uni roadmap with confidence. UniPilot helps you map units,
+        prerequisites, and options in one clear place so your next semester is
+        easier to plan.
+      </p>
+
+      <form action="https://formly.pro/f/SvaEDzNGojmcnbTQeBIh" method="POST">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Join Waitlist</button>
+      </form>
+
+      <div class="small">
+        Early access opens soon for students.
+      </div>
+
+      <div class="footer">
+        Smarter planning for university, from first year to graduation.
+      </div>
     </div>
   </div>
 </body>
