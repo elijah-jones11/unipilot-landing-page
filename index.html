@@ -39,14 +39,14 @@
 
     .container {
       width: 100%;
-      max-width: 980px;
-      background: linear-gradient(165deg, rgba(255, 255, 255, 0.96) 0%, rgba(243, 252, 255, 0.94) 100%);
-      border: 1px solid var(--border);
-      border-radius: 18px;
+      max-width: 1120px;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.97) 0%, rgba(241, 251, 255, 0.93) 100%);
+      border: 1px solid rgba(191, 219, 254, 0.75);
+      border-radius: 30px 24px 32px 22px;
       box-shadow:
-        0 10px 30px rgba(37, 99, 235, 0.07),
-        0 2px 8px rgba(15, 23, 42, 0.05);
-      padding: 56px 28px;
+        0 20px 48px rgba(37, 99, 235, 0.1),
+        0 6px 18px rgba(15, 23, 42, 0.04);
+      padding: 56px 42px;
       text-align: center;
       overflow: hidden;
       position: relative;
@@ -62,21 +62,21 @@
     }
 
     .container::before {
-      width: 260px;
-      height: 260px;
+      width: 340px;
+      height: 240px;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(20, 184, 166, 0.2), transparent 70%);
-      top: -100px;
-      right: -70px;
+      background: radial-gradient(circle, rgba(20, 184, 166, 0.17), transparent 72%);
+      top: -85px;
+      right: -80px;
     }
 
     .container::after {
-      width: 230px;
-      height: 230px;
+      width: 320px;
+      height: 210px;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.22), transparent 72%);
-      bottom: -90px;
-      left: -55px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.18), transparent 74%);
+      bottom: -95px;
+      left: -65px;
     }
 
     .content {
@@ -197,6 +197,14 @@
       transform: translateY(0);
     }
 
+    .form-message {
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f766e;
+      min-height: 20px;
+    }
+
     .small {
       margin-top: 16px;
       font-size: 14px;
@@ -213,7 +221,7 @@
     @media (max-width: 640px) {
       .container {
         padding: 42px 20px;
-        border-radius: 14px;
+        border-radius: 24px 18px 26px 16px;
       }
 
       .description {
@@ -247,10 +255,17 @@
         easier to plan.
       </p>
 
-      <form action="https://formly.pro/f/SvaEDzNGojmcnbTQeBIh" method="POST">
-        <input type="email" name="email" placeholder="Enter your email" required>
+      <form id="waitlistForm">
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Enter your email" 
+          required
+        >
         <button type="submit">Join Waitlist</button>
       </form>
+
+      <div id="formMessage" class="form-message"></div>
 
       <div class="small">
         Early access opens soon for students.
@@ -261,7 +276,44 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const form = document.getElementById("waitlistForm");
+    const formMessage = document.getElementById("formMessage");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const button = form.querySelector("button");
+
+      button.disabled = true;
+      button.textContent = "Joining...";
+
+      try {
+        const response = await fetch("https://formspree.io/f/mpqbzadk", {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          form.reset();
+          formMessage.textContent = "Thanks — you're on the waitlist!";
+          button.textContent = "Joined";
+        } else {
+          formMessage.textContent = "Something went wrong. Please try again.";
+          button.disabled = false;
+          button.textContent = "Join Waitlist";
+        }
+      } catch (error) {
+        formMessage.textContent = "Something went wrong. Please try again.";
+        button.disabled = false;
+        button.textContent = "Join Waitlist";
+      }
+    });
+  </script>
 </body>
 </html>
-
-
